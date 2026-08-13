@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 const Color _orange = Color(0xFFFF8A00);
 const Color _orangeLight = Color(0xFFFFA52F);
 
+const Color _white54 = Color.fromRGBO(255, 255, 255, 0.54);
+const Color _white45 = Color.fromRGBO(255, 255, 255, 0.45);
+const Color _white38 = Color.fromRGBO(255, 255, 255, 0.38);
+const Color _white30 = Color.fromRGBO(255, 255, 255, 0.30);
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -67,7 +72,7 @@ class HomeScreen extends StatelessWidget {
               onPressed: () => Navigator.pop(context),
               child: const Text(
                 'Later',
-                style: TextStyle(color: Colors.white54),
+                style: TextStyle(color: _white54),
               ),
             ),
             FilledButton(
@@ -177,7 +182,7 @@ class _HomeHeader extends StatelessWidget {
                 const SizedBox(height: 5),
                 const Text(
                   'Your study activity',
-                  style: TextStyle(color: Colors.white54),
+                  style: TextStyle(color: _white54),
                 ),
                 const SizedBox(height: 22),
                 Row(
@@ -188,7 +193,7 @@ class _HomeHeader extends StatelessWidget {
                         Text(
                           days[index],
                           style: const TextStyle(
-                            color: Colors.white38,
+                            color: _white38,
                             fontSize: 12,
                           ),
                         ),
@@ -216,7 +221,7 @@ class _HomeHeader extends StatelessWidget {
                 const SizedBox(height: 20),
                 const Text(
                   'Keep studying every day to extend your streak.',
-                  style: TextStyle(color: Colors.white54),
+                  style: TextStyle(color: _white54),
                 ),
               ],
             ),
@@ -255,7 +260,7 @@ class _HomeHeader extends StatelessWidget {
                 const Text(
                   'Earn XP through studying and climb the league.',
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white54),
+                  style: TextStyle(color: _white54),
                 ),
                 const SizedBox(height: 20),
                 _LeagueRow(
@@ -307,7 +312,7 @@ class _LeagueRow extends StatelessWidget {
           Text(
             '#$position',
             style: const TextStyle(
-              color: Colors.white54,
+              color: _white54,
               fontWeight: FontWeight.w800,
             ),
           ),
@@ -383,7 +388,7 @@ class _StreakCard extends StatelessWidget {
                 Text(
                   'Keep your learning streak alive.',
                   style: TextStyle(
-                    color: Colors.white54,
+                    color: _white54,
                     fontSize: 12,
                   ),
                 ),
@@ -392,7 +397,7 @@ class _StreakCard extends StatelessWidget {
           ),
           const Icon(
             Icons.chevron_right_rounded,
-            color: Colors.white30,
+            color: _white30,
           ),
         ],
       ),
@@ -452,7 +457,7 @@ class _GoalCard extends StatelessWidget {
                         Text(
                           'Set a goal and schedule it.',
                           style: TextStyle(
-                            color: Colors.white45,
+                            color: _white45,
                             fontSize: 12,
                           ),
                         ),
@@ -462,7 +467,7 @@ class _GoalCard extends StatelessWidget {
                   const Icon(
                     Icons.arrow_forward_ios_rounded,
                     size: 15,
-                    color: Colors.white38,
+                    color: _white38,
                   ),
                 ],
               ),
@@ -526,9 +531,10 @@ class _EmptyState extends StatelessWidget {
       ),
       child: Row(
         children: [
+          const SizedBox(width: 0),
           Icon(
             icon,
-            color: Colors.white30,
+            color: _white30,
             size: 28,
           ),
           const SizedBox(width: 14),
@@ -546,7 +552,7 @@ class _EmptyState extends StatelessWidget {
                 Text(
                   subtitle,
                   style: const TextStyle(
-                    color: Colors.white38,
+                    color: _white38,
                     fontSize: 12,
                   ),
                 ),
