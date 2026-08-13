@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+const Color _orange = Color(0xFFFF8A00);
+const Color _orangeLight = Color(0xFFFFA52F);
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -7,24 +10,27 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(20, 18, 20, 24),
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.fromLTRB(20, 18, 20, 28),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const _HomeHeader(),
-            const SizedBox(height: 22),
+            const SizedBox(height: 24),
             const _StreakCard(),
-            const SizedBox(height: 22),
+            const SizedBox(height: 24),
             const Text(
-              "Today's goals",
+              "Today's goal",
               style: TextStyle(
                 fontSize: 21,
                 fontWeight: FontWeight.w800,
               ),
             ),
             const SizedBox(height: 12),
-            const _GoalCard(),
-            const SizedBox(height: 22),
+            _GoalCard(
+              onTap: () => _showGoalDialog(context),
+            ),
+            const SizedBox(height: 24),
             const _SectionTitle(title: 'Continue studying'),
             const SizedBox(height: 10),
             const _EmptyState(
@@ -45,6 +51,45 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
+  void _showGoalDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFF171719),
+          title: const Text('Create your first goal'),
+          content: const Text(
+            'Set a study goal and schedule when you want to work on it.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text(
+                'Later',
+                style: TextStyle(color: Colors.white54),
+              ),
+            ),
+            FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: _orange,
+                foregroundColor: Colors.black,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Goal scheduling will open here.'),
+                  ),
+                );
+              },
+              child: const Text('Schedule goal'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
 
 class _HomeHeader extends StatelessWidget {
@@ -54,31 +99,229 @@ class _HomeHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
-          width: 48,
-          height: 48,
-          decoration: BoxDecoration(
-            color: const Color(0xFFFF8A00),
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFFFF8A00).withOpacity(.25),
-                blurRadius: 18,
-              ),
-            ],
+        GestureDetector(
+          onTap: () => _showStreakCalendar(context),
+          child: Container(
+            width: 43,
+            height: 43,
+            decoration: BoxDecoration(
+              color: _orange,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: _orange.withOpacity(.25),
+                  blurRadius: 18,
+                ),
+              ],
+            ),
+            child: const Icon(
+              Icons.local_fire_department_rounded,
+              color: Colors.black,
+              size: 24,
+            ),
           ),
-          child: const Icon(
-            Icons.local_fire_department_rounded,
-            color: Colors.black,
-            size: 27,
+        ),
+        const SizedBox(width: 8),
+        GestureDetector(
+          onTap: () => _showLeagues(context),
+          child: Container(
+            width: 43,
+            height: 43,
+            decoration: BoxDecoration(
+              color: const Color(0xFF18181A),
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: _orange.withOpacity(.20),
+              ),
+            ),
+            child: const Icon(
+              Icons.emoji_events_rounded,
+              color: Color(0xFFFFB13B),
+              size: 23,
+            ),
           ),
         ),
         const Spacer(),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.notifications_none_rounded),
+        const Text(
+          'Study App 3',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w800,
+          ),
         ),
       ],
+    );
+  }
+
+  void _showStreakCalendar(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color(0xFF141416),
+      showDragHandle: true,
+      builder: (_) {
+        final days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 28),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  '7 Day Streak',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                const Text(
+                  'Your study activity',
+                  style: TextStyle(color: Colors.white54),
+                ),
+                const SizedBox(height: 22),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(days.length, (index) {
+                    return Column(
+                      children: [
+                        Text(
+                          days[index],
+                          style: const TextStyle(
+                            color: Colors.white38,
+                            fontSize: 12,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          width: 38,
+                          height: 38,
+                          decoration: BoxDecoration(
+                            color: _orange.withOpacity(.16),
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: _orange.withOpacity(.35),
+                            ),
+                          ),
+                          child: const Icon(
+                            Icons.local_fire_department_rounded,
+                            color: _orangeLight,
+                            size: 19,
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'Keep studying every day to extend your streak.',
+                  style: TextStyle(color: Colors.white54),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showLeagues(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color(0xFF141416),
+      showDragHandle: true,
+      builder: (_) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 30),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.emoji_events_rounded,
+                  color: Color(0xFFFFB13B),
+                  size: 42,
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Weekly Leagues',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                const SizedBox(height: 7),
+                const Text(
+                  'Earn XP through studying and climb the league.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white54),
+                ),
+                const SizedBox(height: 20),
+                _LeagueRow(
+                  position: 1,
+                  name: 'Diamond',
+                  icon: Icons.diamond_outlined,
+                ),
+                _LeagueRow(
+                  position: 2,
+                  name: 'Gold',
+                  icon: Icons.workspace_premium_outlined,
+                ),
+                _LeagueRow(
+                  position: 3,
+                  name: 'Silver',
+                  icon: Icons.shield_outlined,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _LeagueRow extends StatelessWidget {
+  final int position;
+  final String name;
+  final IconData icon;
+
+  const _LeagueRow({
+    required this.position,
+    required this.name,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.all(13),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(.035),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Row(
+        children: [
+          Text(
+            '#$position',
+            style: const TextStyle(
+              color: Colors.white54,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(width: 15),
+          Icon(icon, color: _orangeLight),
+          const SizedBox(width: 12),
+          Text(
+            name,
+            style: const TextStyle(
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -89,27 +332,42 @@ class _StreakCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(17),
+      padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           colors: [
-            Color(0xFF21170D),
-            Color(0xFF151312),
+            Color(0xFF24170B),
+            Color(0xFF151314),
           ],
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(22),
         border: Border.all(
-          color: const Color(0xFFFF8A00).withOpacity(.18),
+          color: _orange.withOpacity(.18),
         ),
+        boxShadow: [
+          BoxShadow(
+            color: _orange.withOpacity(.06),
+            blurRadius: 28,
+            spreadRadius: 1,
+          ),
+        ],
       ),
       child: Row(
         children: [
-          const Icon(
-            Icons.local_fire_department_rounded,
-            color: Color(0xFFFF8A00),
-            size: 30,
+          Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              color: _orange.withOpacity(.13),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.local_fire_department_rounded,
+              color: _orangeLight,
+              size: 30,
+            ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 13),
           const Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -117,11 +375,11 @@ class _StreakCard extends StatelessWidget {
                 Text(
                   '7 Day Streak',
                   style: TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 16,
+                    fontWeight: FontWeight.w900,
+                    fontSize: 17,
                   ),
                 ),
-                SizedBox(height: 3),
+                SizedBox(height: 4),
                 Text(
                   'Keep your learning streak alive.',
                   style: TextStyle(
@@ -132,12 +390,9 @@ class _StreakCard extends StatelessWidget {
               ],
             ),
           ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.emoji_events_outlined,
-              color: Color(0xFFFFB13B),
-            ),
+          const Icon(
+            Icons.chevron_right_rounded,
+            color: Colors.white30,
           ),
         ],
       ),
@@ -146,64 +401,84 @@ class _StreakCard extends StatelessWidget {
 }
 
 class _GoalCard extends StatelessWidget {
-  const _GoalCard();
+  final VoidCallback onTap;
+
+  const _GoalCard({required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: const Color(0xFF151516),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: Colors.white.withOpacity(.07),
-        ),
-      ),
-      child: Column(
-        children: [
-          Row(
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(21),
+        child: Container(
+          padding: const EdgeInsets.all(18),
+          decoration: BoxDecoration(
+            color: const Color(0xFF151516).withOpacity(.90),
+            borderRadius: BorderRadius.circular(21),
+            border: Border.all(
+              color: Colors.white.withOpacity(.07),
+            ),
+          ),
+          child: Column(
             children: [
-              Container(
-                width: 42,
-                height: 42,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFF8A00).withOpacity(.12),
-                  borderRadius: BorderRadius.circular(13),
-                ),
-                child: const Icon(
-                  Icons.flag_rounded,
-                  color: Color(0xFFFF9D2E),
-                ),
-              ),
-              const SizedBox(width: 12),
-              const Expanded(
-                child: Text(
-                  'Daily study goal',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
+              Row(
+                children: [
+                  Container(
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      color: _orange.withOpacity(.12),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: const Icon(
+                      Icons.flag_rounded,
+                      color: _orangeLight,
+                    ),
                   ),
-                ),
+                  const SizedBox(width: 12),
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Your first goal',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        SizedBox(height: 3),
+                        Text(
+                          'Set a goal and schedule it.',
+                          style: TextStyle(
+                            color: Colors.white45,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 15,
+                    color: Colors.white38,
+                  ),
+                ],
               ),
-              const Text(
-                '0%',
-                style: TextStyle(
-                  color: Color(0xFFFF9D2E),
-                  fontWeight: FontWeight.w800,
+              const SizedBox(height: 16),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: const LinearProgressIndicator(
+                  value: 0,
+                  minHeight: 7,
+                  backgroundColor: Color(0xFF28282A),
+                  color: _orange,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 15),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: const LinearProgressIndicator(
-              value: .0,
-              minHeight: 7,
-              backgroundColor: Color(0xFF272728),
-              color: Color(0xFFFF8A00),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -241,19 +516,19 @@ class _EmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(19),
       decoration: BoxDecoration(
-        color: const Color(0xFF121213),
-        borderRadius: BorderRadius.circular(18),
+        color: const Color(0xFF121213).withOpacity(.82),
+        borderRadius: BorderRadius.circular(19),
         border: Border.all(
-          color: Colors.white.withOpacity(.06),
+          color: Colors.white.withOpacity(.055),
         ),
       ),
       child: Row(
         children: [
           Icon(
             icon,
-            color: Colors.white38,
+            color: Colors.white30,
             size: 28,
           ),
           const SizedBox(width: 14),
@@ -271,7 +546,7 @@ class _EmptyState extends StatelessWidget {
                 Text(
                   subtitle,
                   style: const TextStyle(
-                    color: const Color.fromRGBO(255, 255, 255, 0.45),
+                    color: Colors.white38,
                     fontSize: 12,
                   ),
                 ),
