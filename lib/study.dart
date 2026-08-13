@@ -118,7 +118,7 @@ class _StudyOption extends StatelessWidget {
                       Text(
                         subtitle,
                         style: const TextStyle(
-                          color: Colors.white45,
+                          color: const Color.fromRGBO(255, 255, 255, 0.45),
                           fontSize: 12,
                         ),
                       ),
