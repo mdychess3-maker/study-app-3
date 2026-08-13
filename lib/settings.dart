@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 const Color _orange = Color(0xFFFF8A00);
 const Color _orangeLight = Color(0xFFFFA52F);
 
+const Color _white54 = Color.fromRGBO(255, 255, 255, 0.54);
+const Color _white38 = Color.fromRGBO(255, 255, 255, 0.38);
+const Color _white30 = Color.fromRGBO(255, 255, 255, 0.30);
+const Color _white24 = Color.fromRGBO(255, 255, 255, 0.24);
+
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
@@ -20,17 +25,14 @@ class SettingsScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 31,
                 fontWeight: FontWeight.w900,
-                letterSpacing: -.8,
+                letterSpacing: -0.8,
               ),
             ),
             const SizedBox(height: 20),
-
             _ProfileHeader(
               onTap: () => _showAccountChoice(context),
             ),
-
             const SizedBox(height: 23),
-
             const _SectionLabel('Account'),
             _SettingsTile(
               icon: Icons.login_rounded,
@@ -44,9 +46,7 @@ class SettingsScreen extends StatelessWidget {
               subtitle: 'Create a new account',
               onTap: () => _showCreateAccount(context),
             ),
-
             const SizedBox(height: 18),
-
             const _SectionLabel('Personalization'),
             _SettingsTile(
               icon: Icons.face_retouching_natural_rounded,
@@ -66,9 +66,7 @@ class SettingsScreen extends StatelessWidget {
               subtitle: 'View locked and unlocked achievements',
               onTap: () => _showAchievements(context),
             ),
-
             const SizedBox(height: 18),
-
             const _SectionLabel('Tools'),
             _SettingsTile(
               icon: Icons.auto_awesome_rounded,
@@ -126,9 +124,7 @@ class SettingsScreen extends StatelessWidget {
                 'Document analysis will open here.',
               ),
             ),
-
             const SizedBox(height: 18),
-
             const _SectionLabel('App'),
             _SettingsTile(
               icon: Icons.workspace_premium_outlined,
@@ -196,7 +192,7 @@ class SettingsScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.pop(context);
                     _showCreateAccount(context);
-                  },
+                                      },
                 ),
               ],
             ),
@@ -247,15 +243,16 @@ class SettingsScreen extends StatelessWidget {
               Text(
                 description,
                 style: const TextStyle(
-                  color: Colors.white54,
+                  color: _white54,
                 ),
               ),
               const SizedBox(height: 15),
               TextField(
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   hintText: 'Email',
                   filled: true,
-                  fillColor: Colors.white.withOpacity(.04),
+                  fillColor: Colors.white.withOpacity(0.04),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
                     borderSide: BorderSide.none,
@@ -269,7 +266,9 @@ class SettingsScreen extends StatelessWidget {
               onPressed: () => Navigator.pop(context),
               child: const Text(
                 'Cancel',
-                style: TextStyle(color: Colors.white54),
+                style: TextStyle(
+                  color: _white54,
+                ),
               ),
             ),
             FilledButton(
@@ -313,7 +312,7 @@ class SettingsScreen extends StatelessWidget {
                   'Customize your character with different looks, items and poses.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.white54,
+                    color: _white54,
                     fontSize: 12,
                   ),
                 ),
@@ -338,6 +337,31 @@ class SettingsScreen extends StatelessWidget {
                       child: _CustomizationButton(
                         icon: Icons.checkroom_rounded,
                         title: 'Items',
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _CustomizationButton(
+                        icon: Icons.accessibility_new_rounded,
+                        title: 'Poses',
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: _CustomizationButton(
+                        icon: Icons.remove_red_eye_rounded,
+                        title: 'Eyes',
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: _CustomizationButton(
+                        icon: Icons.color_lens_outlined,
+                        title: 'Style',
                       ),
                     ),
                   ],
@@ -372,20 +396,22 @@ class SettingsScreen extends StatelessWidget {
                 const SizedBox(height: 7),
                 const Text(
                   'Some appearance options can be premium.',
-                  style: TextStyle(color: Colors.white54),
+                  style: TextStyle(
+                    color: _white54,
+                  ),
                 ),
                 const SizedBox(height: 18),
-                _AppearanceRow(
+                const _AppearanceRow(
                   title: 'Orange accent',
                   selected: true,
                   premium: false,
                 ),
-                _AppearanceRow(
+                const _AppearanceRow(
                   title: 'Glass intensity',
                   selected: false,
                   premium: false,
                 ),
-                _AppearanceRow(
+                const _AppearanceRow(
                   title: 'Premium themes',
                   selected: false,
                   premium: true,
@@ -400,10 +426,26 @@ class SettingsScreen extends StatelessWidget {
 
   void _showAchievements(BuildContext context) {
     final achievements = [
-      ('First Step', Icons.flag_rounded, false),
-      ('7 Day Streak', Icons.local_fire_department_rounded, false),
-      ('100 Cards', Icons.style_rounded, true),
-      ('Quiz Master', Icons.quiz_rounded, true),
+      (
+        'First Step',
+        Icons.flag_rounded,
+        false,
+      ),
+      (
+        '7 Day Streak',
+        Icons.local_fire_department_rounded,
+        false,
+      ),
+      (
+        '100 Cards',
+        Icons.style_rounded,
+        true,
+      ),
+      (
+        'Quiz Master',
+        Icons.quiz_rounded,
+        true,
+      ),
     ];
 
     showModalBottomSheet(
@@ -442,13 +484,13 @@ class SettingsScreen extends StatelessWidget {
                           width: 46,
                           height: 46,
                           decoration: BoxDecoration(
-                            color: _orange.withOpacity(.10),
+                            color: _orange.withOpacity(0.10),
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
                             achievement.$2,
                             color: achievement.$3
-                                ? Colors.white24
+                                ? _white24
                                 : _orangeLight,
                           ),
                         ),
@@ -459,7 +501,7 @@ class SettingsScreen extends StatelessWidget {
                             child: Icon(
                               Icons.lock_rounded,
                               size: 15,
-                              color: Colors.white54,
+                              color: _white54,
                             ),
                           ),
                       ],
@@ -468,18 +510,18 @@ class SettingsScreen extends StatelessWidget {
                       achievement.$1,
                       style: const TextStyle(
                         fontWeight: FontWeight.w700,
-                      ),
+                        ),
                     ),
                     subtitle: Text(
                       achievement.$3 ? 'Locked' : 'Unlocked',
                       style: const TextStyle(
-                        color: Colors.white38,
+                        color: _white38,
                         fontSize: 11,
                       ),
                     ),
                     trailing: const Icon(
                       Icons.chevron_right_rounded,
-                      color: Colors.white30,
+                      color: _white30,
                     ),
                   ),
                 ),
@@ -502,14 +544,19 @@ class SettingsScreen extends StatelessWidget {
       builder: (_) {
         return AlertDialog(
           backgroundColor: const Color(0xFF18181A),
-          title: Text(name),
+          title: Text(
+            name,
+            style: const TextStyle(
+              fontWeight: FontWeight.w900,
+            ),
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
                 icon,
                 size: 55,
-                color: locked ? Colors.white24 : _orangeLight,
+                color: locked ? _white24 : _orangeLight,
               ),
               const SizedBox(height: 15),
               Text(
@@ -517,7 +564,9 @@ class SettingsScreen extends StatelessWidget {
                     ? 'This achievement is still locked.'
                     : 'Achievement unlocked.',
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.white54),
+                style: const TextStyle(
+                  color: _white54,
+                ),
               ),
               if (!locked) ...[
                 const SizedBox(height: 7),
@@ -565,7 +614,9 @@ class SettingsScreen extends StatelessWidget {
                 const Text(
                   'Scan an image from your gallery or camera, then chat with AI about it.',
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white54),
+                  style: TextStyle(
+                    color: _white54,
+                  ),
                 ),
                 const SizedBox(height: 18),
                 _BottomAction(
@@ -606,12 +657,14 @@ class SettingsScreen extends StatelessWidget {
           backgroundColor: const Color(0xFF18181A),
           title: Text(
             title,
-            style: const TextStyle(fontWeight: FontWeight.w900),
+            style: const TextStyle(
+              fontWeight: FontWeight.w900,
+            ),
           ),
           content: Text(
             message,
             style: const TextStyle(
-              color: Colors.white54,
+              color: _white54,
               height: 1.4,
             ),
           ),
@@ -631,19 +684,272 @@ class SettingsScreen extends StatelessWidget {
   }
 }
 
-class _ProfileHeader extends StatelessWidget {
+class _SectionLabel extends StatelessWidget {
+  final String title;
+
+  const _SectionLabel(this.title);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      title,
+      style: const TextStyle(
+        color: _white54,
+        fontWeight: FontWeight.w700,
+      ),
+    );
+  }
+}
+
+class _SettingsTile extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String subtitle;
   final VoidCallback onTap;
 
-  const _ProfileHeader({required this.onTap});
+  const _SettingsTile({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
+      child: Material(
+        color: const Color(0xFF141415),
+        borderRadius: BorderRadius.circular(17),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(17),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 15,
+              vertical: 13,
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  icon,
+                  color: _orangeLight,
+                  size: 23,
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        subtitle,
+                        style: const TextStyle(
+                          color: _white38,
+                          fontSize: 11,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Icon(
+                  Icons.chevron_right_rounded,
+                  color: _white30,
+                  size: 21,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _BottomAction extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final VoidCallback onTap;
+
+  const _BottomAction({
+    required this.icon,
+    required this.title,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 9),
+      child: Material(
+        color: const Color(0xFF1D1D20),
+        borderRadius: BorderRadius.circular(16),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 15,
+              vertical: 14,
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  icon,
+                  color: _orangeLight,
+                ),
+                const SizedBox(width: 13),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                const Icon(
+                  Icons.chevron_right_rounded,
+                  color: _white30,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _CharacterPreview extends StatelessWidget {
+  const _CharacterPreview();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 100,
+      height: 100,
+      decoration: BoxDecoration(
+        color: _orange.withOpacity(0.12),
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: _orange.withOpacity(0.25),
+        ),
+      ),
+      child: const Icon(
+        Icons.person_rounded,
+        size: 58,
+        color: _orangeLight,
+      ),
+    );
+  }
+}
+
+class _CustomizationButton extends StatelessWidget {
+  final IconData icon;
+  final String title;
+
+  const _CustomizationButton({
+    required this.icon,
+    required this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
+      color: const Color(0xFF1B1B1D),
+      borderRadius: BorderRadius.circular(15),
       child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(23),
-        child: Container(
-          padding: const EdgeInsets.all(18),
-          decoration: BoxDecoration(
-            gradient
+        onTap: () {},
+        borderRadius: BorderRadius.circular(15),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          child: Column(
+            children: [
+              Icon(
+                icon,
+                color: _orangeLight,
+                size: 22,
+              ),
+              const SizedBox(height: 5),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _AppearanceRow extends StatelessWidget {
+  final String title;
+  final bool selected;
+  final bool premium;
+
+  const _AppearanceRow({
+    required this.title,
+    required this.selected,
+    required this.premium,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 9),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 14,
+        vertical: 13,
+      ),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1B1B1D),
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(
+          color: selected
+              ? _orange.withOpacity(0.35)
+              : Colors.white.withOpacity(0.05),
+        ),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+          if (premium)
+            const Icon(
+              Icons.lock_rounded,
+              color: _white54,
+              size: 17,
+            )
+          else if (selected)
+            const Icon(
+              Icons.check_circle_rounded,
+              color: _orangeLight,
+              size: 19,
+            )
+          else
+            const Icon(
+              Icons.chevron_right_rounded,
+              color: _white30,
+              size: 20,
+            ),
+        ],
+      ),
+    );
+  }
+}
